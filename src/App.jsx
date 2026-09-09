@@ -1,27 +1,99 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import FeatureBar from './components/FeatureBar';
-import BackgroundEffects from './components/BackgroundEffects';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import LandingPage from "./pages/LandingPage";
+import Dashboard from "./pages/Dashboard";
+import Stations from "./pages/Stations";
+import Anomalies from "./pages/Anomalies";
+import SensorHealth from "./components/SensorHealth";
+import Analytics from "./pages/Analytics";
+import Alerts from "./pages/Alerts";
+import Settings from "./pages/Settings";
+
+import Layout from "./components/Layout";
+
+import "./App.css";
 
 function App() {
   return (
-    <div className="relative min-h-screen lg:h-screen lg:max-h-screen bg-[#030712] text-slate-100 selection:bg-blue-500 selection:text-white overflow-y-auto lg:overflow-hidden flex flex-col justify-between">
-      
-      {/* Atmospheric Holographic Background & Mountain Silhouette */}
-      <BackgroundEffects />
+    <BrowserRouter>
+      <Routes>
+        {/* LANDING PAGE */}
+        <Route path="/" element={<LandingPage />} />
 
-      {/* Main Interactive Content */}
-      <div className="relative z-10 flex-grow flex flex-col justify-between h-full max-h-full">
-        <Navbar />
-        
-        <main className="flex-grow flex flex-col justify-between overflow-hidden py-2 lg:py-4">
-          <HeroSection />
-          <FeatureBar />
-        </main>
-      </div>
+        {/* DASHBOARD APP */}
+        <Route
+          path="/dashboard"
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />
 
-    </div>
+        {/* AWS STATIONS */}
+        <Route
+          path="/stations"
+          element={
+            <Layout>
+              <Stations />
+            </Layout>
+          }
+        />
+
+        {/* ANOMALIES */}
+        <Route
+          path="/anomalies"
+          element={
+            <Layout>
+              <Anomalies />
+            </Layout>
+          }
+        />
+
+        {/* SENSOR HEALTH */}
+        <Route
+          path="/health"
+          element={
+            <Layout>
+              <SensorHealth />
+            </Layout>
+          }
+        />
+
+        {/* ANALYTICS */}
+        <Route
+          path="/analytics"
+          element={
+            <Layout>
+              <Analytics />
+            </Layout>
+          }
+        />
+
+        {/* ALERTS */}
+        <Route
+          path="/alerts"
+          element={
+            <Layout>
+              <Alerts />
+            </Layout>
+          }
+        />
+
+        {/* SETTINGS */}
+        <Route
+          path="/settings"
+          element={
+            <Layout>
+              <Settings />
+            </Layout>
+          }
+        />
+
+        {/* FALLBACK */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
-import { CloudLightning, Menu, X, ChevronDown, MessageSquare, Send } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  CloudLightning,
+  Menu,
+  X,
+  ChevronDown,
+  MessageSquare,
+  Send,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const [activeTab, setActiveTab] = useState('Home');
+  const [activeTab, setActiveTab] = useState("Home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [contactDropdownOpen, setContactDropdownOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
-  const [feedbackText, setFeedbackText] = useState('');
+  const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
+  const navigate = useNavigate();
 
   // Removed 'Features' per requirement
   const navItems = [
-    { name: 'Home', hasDropdown: false },
-    { name: 'How It Works', hasDropdown: false },
-    { name: 'About Us', hasDropdown: false },
-    { name: 'Contact', hasDropdown: true },
+    { name: "Home", hasDropdown: false },
+    { name: "How It Works", hasDropdown: false },
+    { name: "About Us", hasDropdown: false },
+    { name: "Contact", hasDropdown: true },
   ];
 
   const handleFeedbackSubmit = (e) => {
@@ -24,7 +33,7 @@ const Navbar = () => {
       setTimeout(() => {
         setFeedbackSent(false);
         setFeedbackModalOpen(false);
-        setFeedbackText('');
+        setFeedbackText("");
       }, 1500);
     }
   };
@@ -33,7 +42,6 @@ const Navbar = () => {
     <>
       <header className="sticky top-0 z-50 w-full bg-[#030712]/90 backdrop-blur-md border-b border-blue-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
-          
           {/* Left: Logo & Subtitle */}
           <div className="flex items-center space-x-2.5 cursor-pointer">
             <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600/30 to-cyan-500/10 border border-blue-500/40 shadow-[0_0_12px_rgba(0,168,255,0.3)]">
@@ -69,12 +77,14 @@ const Navbar = () => {
                       }}
                       className={`relative flex items-center gap-1 py-1 text-xs sm:text-sm font-medium transition-all duration-200 ${
                         isActive
-                          ? 'text-[#00f0ff] font-semibold'
-                          : 'text-slate-300 hover:text-white'
+                          ? "text-[#00f0ff] font-semibold"
+                          : "text-slate-300 hover:text-white"
                       }`}
                     >
                       <span>{item.name}</span>
-                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${contactDropdownOpen ? 'rotate-180 text-[#00f0ff]' : 'text-slate-400'}`} />
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${contactDropdownOpen ? "rotate-180 text-[#00f0ff]" : "text-slate-400"}`}
+                      />
                       {isActive && (
                         <span className="absolute bottom-[-2px] left-0 right-0 h-[2px] bg-[#00f0ff] shadow-[0_0_8px_#00f0ff] rounded-full" />
                       )}
@@ -105,8 +115,8 @@ const Navbar = () => {
                   onClick={() => setActiveTab(item.name)}
                   className={`relative py-1 text-xs sm:text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'text-[#00f0ff] font-semibold'
-                      : 'text-slate-300 hover:text-white'
+                      ? "text-[#00f0ff] font-semibold"
+                      : "text-slate-300 hover:text-white"
                   }`}
                 >
                   {item.name}
@@ -120,7 +130,10 @@ const Navbar = () => {
 
           {/* Right: Get Started CTA Button */}
           <div className="hidden md:flex items-center">
-            <button className="relative px-4 py-1.5 sm:px-5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 shadow-[0_0_15px_rgba(0,168,255,0.4)] hover:shadow-[0_0_24px_rgba(0,240,255,0.6)] border border-blue-400/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="relative px-4 py-1.5 sm:px-5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 shadow-[0_0_15px_rgba(0,168,255,0.4)] hover:shadow-[0_0_24px_rgba(0,240,255,0.6)] border border-blue-400/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0"
+            >
               Get Started
             </button>
           </div>
@@ -131,7 +144,11 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-1.5 rounded-lg bg-blue-950/50 border border-blue-500/30 text-blue-400 hover:text-white"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
@@ -148,8 +165,8 @@ const Navbar = () => {
                   }}
                   className={`block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === item.name
-                      ? 'bg-blue-600/20 text-[#00f0ff] border-l-2 border-[#00f0ff]'
-                      : 'text-slate-300 hover:bg-blue-900/20 hover:text-white'
+                      ? "bg-blue-600/20 text-[#00f0ff] border-l-2 border-[#00f0ff]"
+                      : "text-slate-300 hover:bg-blue-900/20 hover:text-white"
                   }`}
                 >
                   {item.name}
@@ -171,7 +188,13 @@ const Navbar = () => {
               </div>
             ))}
             <div className="pt-2">
-              <button className="w-full py-2 rounded-lg font-semibold text-xs text-white bg-gradient-to-r from-blue-600 to-cyan-500 shadow-neon-blue">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate("/dashboard");
+                }}
+                className="w-full py-2 rounded-lg font-semibold text-xs text-white bg-gradient-to-r from-blue-600 to-cyan-500 shadow-neon-blue"
+              >
                 Get Started
               </button>
             </div>
@@ -196,7 +219,9 @@ const Navbar = () => {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-white">Send Feedback</h3>
-                <p className="text-xs text-blue-200/70">Help us improve SkyGuard AI Weather Monitoring</p>
+                <p className="text-xs text-blue-200/70">
+                  Help us improve SkyGuard AI Weather Monitoring
+                </p>
               </div>
             </div>
 

@@ -4,6 +4,7 @@ import SensorHealth from "../components/SensorHealth";
 import AnomalyPanel from "../components/AnomalyPanel";
 import RecentAlerts from "../components/RecentAlerts";
 import AIStatus from "../components/AIStatus";
+import WeatherDataGrid from "../components/WeatherDataGrid";
 
 function Dashboard() {
   return (
@@ -59,6 +60,10 @@ function Dashboard() {
           icon="humidity"
         />
       </div>
+
+      {/* ALL AWS WEATHER PARAMETERS */}
+      <WeatherDataGrid />
+
       <AIStatus />
       {/* MAIN ANALYSIS */}
       <div className="dashboard-grid">

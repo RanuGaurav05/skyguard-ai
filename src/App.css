@@ -8264,3 +8264,583 @@ button {
 .station-table .table-row {
   min-width: 1050px;
 }
+
+/* =========================================================
+   SKYGUARD AI — GLOBAL TYPOGRAPHY UPGRADE
+   Larger + cleaner + more readable
+========================================================= */
+
+/* ---------- SIDEBAR ---------- */
+
+.nav-item {
+  font-size: 15px;
+}
+
+.nav-section {
+  font-size: 11px;
+}
+
+.nav-badge {
+  font-size: 11px;
+}
+
+.brand-name {
+  font-size: 16px;
+}
+
+.brand-ai {
+  font-size: 12px;
+}
+
+.system-status-header {
+  font-size: 11px;
+}
+
+.system-status-line {
+  font-size: 12px;
+}
+
+
+/* ---------- TOPBAR ---------- */
+
+.breadcrumb {
+  font-size: 13px;
+}
+
+.live-indicator {
+  font-size: 11px;
+}
+
+.topbar-time {
+  font-size: 12px;
+}
+
+.operator-info strong {
+  font-size: 12px;
+}
+
+.operator-info small {
+  font-size: 11px;
+}
+
+
+/* ---------- PAGE HEADINGS ---------- */
+
+.eyebrow,
+.card-eyebrow {
+  font-size: 11px;
+}
+
+.page-heading h1 {
+  font-size: clamp(26px, 2.3vw, 31px);
+}
+
+.page-heading p {
+  font-size: 14px;
+}
+
+
+/* ---------- STATION SELECTOR ---------- */
+
+.station-selector-info strong {
+  font-size: 13px;
+}
+
+.station-selector-info small {
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   SENSOR CARDS
+========================================================= */
+
+.sensor-title {
+  font-size: 14px;
+}
+
+.sensor-status {
+  font-size: 10px;
+}
+
+.sensor-value {
+  font-size: 37px;
+}
+
+.sensor-value span {
+  font-size: 15px;
+}
+
+.sensor-change {
+  font-size: 12px;
+}
+
+.updated-text {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   AI STATUS
+========================================================= */
+
+.ai-status-left h3 {
+  font-size: 16px;
+}
+
+.ai-status-left p {
+  font-size: 11px;
+}
+
+.ai-metric span {
+  font-size: 9px;
+}
+
+.ai-metric strong {
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   CARDS + CHART
+========================================================= */
+
+.card-header h2 {
+  font-size: 18px;
+}
+
+.chart-current strong {
+  font-size: 29px;
+}
+
+.chart-current > span:not(.current-indicator) {
+  font-size: 13px;
+}
+
+.chart-current small {
+  font-size: 11px;
+}
+
+.chart-control {
+  font-size: 11px;
+}
+
+.parameter-tab {
+  font-size: 11px;
+}
+
+.chart-footer {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   ANOMALY + ALERTS
+========================================================= */
+
+.anomaly-number {
+  font-size: 43px;
+}
+
+.anomaly-number span {
+  font-size: 11px;
+}
+
+.confidence > div:first-child {
+  font-size: 11px;
+}
+
+.event-info strong {
+  font-size: 12px;
+}
+
+.event-info span {
+  font-size: 10px;
+}
+
+.event-score {
+  font-size: 11px;
+}
+
+.view-all {
+  font-size: 11px;
+}
+
+.alert-item strong {
+  font-size: 12px;
+}
+
+.alert-item span {
+  font-size: 10px;
+}
+
+.alert-item b {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   AWS STATIONS PAGE
+========================================================= */
+
+.stations-header h1 {
+  font-size: 30px;
+}
+
+.stations-header p {
+  font-size: 14px;
+}
+
+.network-live {
+  font-size: 11px;
+}
+
+.map-status {
+  font-size: 11px;
+}
+
+.map-station label {
+  font-size: 11px;
+}
+
+.map-legend span {
+  font-size: 10px;
+}
+
+
+/* ---------- STATION SUMMARY ---------- */
+
+.station-summary-card span {
+  font-size: 11px;
+}
+
+.station-summary-card strong {
+  font-size: 33px;
+}
+
+.station-summary-card small {
+  font-size: 11px;
+}
+
+
+/* ---------- STATION DETAIL ---------- */
+
+.station-detail-header h2 {
+  font-size: 23px;
+}
+
+.station-detail-header p {
+  font-size: 11px;
+}
+
+.station-online {
+  font-size: 10px;
+}
+
+.station-health-large > div:last-child span {
+  font-size: 10px;
+}
+
+.station-health-large > div:last-child strong {
+  font-size: 12px;
+}
+
+.station-reading span {
+  font-size: 12px;
+}
+
+.station-reading strong {
+  font-size: 13px;
+}
+
+
+/* ---------- EXPANDED WEATHER DATA ---------- */
+
+.station-reading-expanded > div span {
+  font-size: 10px;
+}
+
+.station-reading-expanded > div strong {
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   STATIONS TABLE
+========================================================= */
+
+.table-row {
+  font-size: 12px;
+}
+
+.table-heading {
+  font-size: 10px;
+}
+
+.station-name-cell strong {
+  font-size: 12px;
+}
+
+.station-name-cell small {
+  font-size: 10px;
+}
+
+.table-status {
+  font-size: 10px;
+}
+
+.station-search input {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   SENSOR HEALTH PAGE
+========================================================= */
+
+.health-wrapper .health-header h1 {
+  font-size: 22px;
+}
+
+.health-wrapper .health-header p {
+  font-size: 11px;
+}
+
+.health-wrapper .health-engine-status {
+  font-size: 10px;
+}
+
+.health-wrapper .health-summary-card span {
+  font-size: 10px;
+}
+
+.health-wrapper .health-summary-card strong {
+  font-size: 24px;
+}
+
+.health-wrapper .health-summary-card small {
+  font-size: 9px;
+}
+
+.health-wrapper .health-card-header h2 {
+  font-size: 16px;
+}
+
+.health-wrapper .health-card-header p {
+  font-size: 10px;
+}
+
+
+/* ---------- PARAMETER HEALTH ---------- */
+
+.health-wrapper .parameter-label {
+  font-size: 10px;
+}
+
+.health-wrapper .parameter-health-row > strong {
+  font-size: 10px;
+}
+
+
+/* ---------- SENSOR LIST ---------- */
+
+.health-wrapper .sensor-list-title {
+  font-size: 9px;
+}
+
+.health-wrapper .sensor-item-info strong {
+  font-size: 10px;
+}
+
+.health-wrapper .sensor-item-info span {
+  font-size: 9px;
+}
+
+.health-wrapper .sensor-item-health > strong {
+  font-size: 11px;
+}
+
+.health-wrapper .sensor-status {
+  font-size: 8px;
+}
+
+
+/* ---------- HEALTH SCORE ---------- */
+
+.health-wrapper .health-score strong {
+  font-size: 38px;
+}
+
+.health-wrapper .health-score span {
+  font-size: 12px;
+}
+
+.health-wrapper .health-score-section > div:last-child span {
+  font-size: 9px;
+}
+
+.health-wrapper .health-score-section > div:last-child strong {
+  font-size: 11px;
+}
+
+
+/* ---------- DEGRADATION ---------- */
+
+.health-wrapper .degradation-box span {
+  font-size: 9px;
+}
+
+.health-wrapper .degradation-box strong {
+  font-size: 11px;
+}
+
+
+/* ---------- AI ASSESSMENT ---------- */
+
+.health-wrapper .assessment-header {
+  font-size: 9px;
+}
+
+.health-wrapper .health-ai-assessment p {
+  font-size: 10px;
+}
+
+
+/* ---------- HEALTH METRICS ---------- */
+
+.health-wrapper .health-metrics span {
+  font-size: 9px;
+}
+
+.health-wrapper .health-metrics strong {
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   GENERAL
+========================================================= */
+
+button {
+  font-size: 13px;
+}
+
+small {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .nav-item {
+    font-size: 15px;
+  }
+
+  .page-heading h1 {
+    font-size: 24px;
+  }
+
+  .page-heading p {
+    font-size: 13px;
+  }
+
+  .sensor-title {
+    font-size: 14px;
+  }
+
+  .sensor-value {
+    font-size: 33px;
+  }
+
+  .sensor-value span {
+    font-size: 14px;
+  }
+
+  .sensor-change {
+    font-size: 12px;
+  }
+
+  .card-header h2 {
+    font-size: 17px;
+  }
+
+  .chart-current strong {
+    font-size: 26px;
+  }
+
+  .parameter-tab {
+    font-size: 10px;
+  }
+
+  .table-row {
+    font-size: 11px;
+  }
+
+  .station-reading span {
+    font-size: 12px;
+  }
+
+  .station-reading strong {
+    font-size: 13px;
+  }
+
+  .station-reading-expanded > div span {
+    font-size: 10px;
+  }
+
+  .station-reading-expanded > div strong {
+    font-size: 14px;
+  }
+
+  .health-wrapper .health-card-header h2 {
+    font-size: 16px;
+  }
+
+  .health-wrapper .parameter-label {
+    font-size: 10px;
+  }
+
+  .health-wrapper .sensor-item-info strong {
+    font-size: 10px;
+  }
+
+  .health-wrapper .sensor-item-info span {
+    font-size: 9px;
+  }
+
+  .health-wrapper .health-ai-assessment p {
+    font-size: 10px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .page-heading h1 {
+    font-size: 21px;
+  }
+
+  .page-heading p {
+    font-size: 12px;
+  }
+
+  .sensor-value {
+    font-size: 31px;
+  }
+
+  .card-header h2 {
+    font-size: 16px;
+  }
+
+  .table-row {
+    font-size: 11px;
+  }
+}

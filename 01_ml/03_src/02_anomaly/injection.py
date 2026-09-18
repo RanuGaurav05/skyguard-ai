@@ -3,8 +3,7 @@ SkyGuard AI - Anomaly Injection Orchestrator
 Path: 01_ml/03_src/02_anomaly/injection.py
 
 Loads the base AWS dataset, prepares label/rolling-stat columns, then runs all
-anomaly injectors (sensor_faults, transmission_faults, genuine_events) on the
-3 core model features: avg_temp, air_pressure, relative_humidity.
+anomaly injectors (sensor_faults, transmission_faults, genuine_events) on the 3 core model features: avg_temp, air_pressure, relative_humidity.
 """
 
 import uuid
@@ -92,8 +91,7 @@ def build_anomaly_dataset(input_path: str, output_csv: str, output_events_csv: s
     # GENUINE_EVENT — regional, multi-station
     # companion_features keeps min_temp/max_temp scaled together with avg_temp
     # so min<=avg<=max stays physically consistent for a genuine heat event.
-    # Magnitude ranges are NOT passed here — they default to DEFAULT_MAGNITUDE_RANGES
-    # in genuine_events.py, which are grounded in real IMD monsoon-depression /
+    # Magnitude ranges are NOT passed here — they default to DEFAULT_MAGNITUDE_RANGES in genuine_events.py, which are grounded in real IMD monsoon-depression /
     # heatwave data (see the comment there), not chosen to dodge the physics engine.
     df = inject_regional_event(df, "avg_temp", "REGIONAL_HEAT_EVENT", 20,
                                 used_rows, event_log, new_event_id,
@@ -104,7 +102,7 @@ def build_anomaly_dataset(input_path: str, output_csv: str, output_events_csv: s
     # Rolling stats computed AFTER injection -> reflect the corrupted stream, not ground truth
     df = add_rolling_stats(df)
 
-    df = df.reset_index(drop=True)  # safe to reset only now, after every injector is done
+    df = df.reset_index(drop=True)       # safe to reset only now, after every injector is done
 
     events_df = pd.DataFrame(event_log)
     df.to_csv(output_csv, index=False)

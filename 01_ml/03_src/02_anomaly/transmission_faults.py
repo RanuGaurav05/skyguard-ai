@@ -1,10 +1,8 @@
 """
 SkyGuard AI - Transmission Fault Injectors
-Path: 01_ml/03_src/02_anomaly/transmission_faults.py
 
 Covers TRANSMISSION_GLITCH category: MISSING_RECORD.
-Unlike sensor faults, this does not modify a value — it removes rows entirely,
-since a communication failure means no data arrived at all.
+Unlike sensor faults, this does not modify a value — it removes rows entirely, since a communication failure means no data arrived at all.
 """
 
 import numpy as np

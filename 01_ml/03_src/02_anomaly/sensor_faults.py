@@ -3,17 +3,14 @@ SkyGuard AI - Sensor Fault Injectors
 Path: 01_ml/03_src/02_anomaly/sensor_faults.py
 
 Covers SENSOR_FAULT category: SUDDEN_SPIKE, STUCK_AT, GRADUAL_DRIFT.
-Each function mutates df in place, updates the shared `used_rows` set to prevent
-overlapping injections, and appends a summary record to `event_log`.
+Each function mutates df in place, updates the shared `used_rows` set to prevent overlapping injections, and appends a summary record to `event_log`.
 """
 
 import numpy as np
 import pandas as pd
 
-# Physically plausible clip bounds per feature — even a faulty sensor doesn't
-# usually report values wildly outside instrument range. Keeping spikes within
-# these bounds makes them "wrong but plausible", which is what forces the model
-# to actually learn temporal/spatial context instead of a trivial range check.
+# Physically plausible clip bounds per feature — even a faulty sensor doesn't usually report values wildly outside instrument range. Keeping spikes within
+# these bounds makes them "wrong but plausible", which is what forces the model to actually learn temporal/spatial context instead of a trivial range check.
 FEATURE_CLIP_BOUNDS = {
     "avg_temp": (-15.0, 55.0),
     "air_pressure": (940.0, 1050.0),
@@ -157,7 +154,7 @@ def inject_gradual_drift(df, feature, n_events, used_rows, event_log, new_event_
             # drift accumulates linearly across the window (day 1 = small, last day = full magnitude)
             progress = (step + 1) / run_len
             drifted = original * (1 + direction * total_drift_pct * progress)
-            drifted = float(np.clip(drifted, lo, hi))  # keep drift within instrument-plausible range
+            drifted = float(np.clip(drifted, lo, hi))      # keep drift within instrument-plausible range
 
             df.at[idx, feature] = drifted
             df.at[idx, "is_injected"] = True

@@ -3,9 +3,8 @@ SkyGuard AI - Genuine Event Injectors
 Path: 01_ml/03_src/02_anomaly/genuine_events.py
 
 Covers GENUINE_EVENT category: REGIONAL_HEAT_EVENT, REGIONAL_PRESSURE_DROP.
-The defining trait of a genuine event is that ALL stations in a cluster move
-together — this is what the spatial correlation engine will later use to tell
-it apart from an isolated sensor fault.
+The defining trait of a genuine event is that ALL stations in a cluster move together — this is what the spatial
+correlation engine will later use to tell it apart from an isolated sensor fault.
 """
 
 import numpy as np
@@ -14,14 +13,10 @@ import pandas as pd
 
 # Magnitude ranges are grounded in real Indian meteorological data, not tuned
 # to pass/fail any downstream detector:
-#   - Heat events: regional temperature anomalies of 15-30% relative to seasonal
-#     norms are consistent with documented Indian heatwave episodes.
-#   - Pressure drops: real Indian monsoon depressions and western disturbances
-#     produce only ~2-8 hPa surface pressure drops over an inland station
-#     network (source: IMD monsoon depression case studies, Hunt et al. 2018
-#     western disturbance composites). Our station network's own normal
-#     pressure range is ~992-1025 hPa (33 hPa span) — a genuine regional event
-#     should be a small fraction of that, not larger than the whole range.
+#   - Heat events: regional temperature anomalies of 15-30% relative to seasonal norms are consistent with documented Indian heatwave episodes.
+#   - Pressure drops: real Indian monsoon depressions and western disturbances produce only ~2-8 hPa surface pressure drops over an inland station
+#     network (source: IMD monsoon depression case studies, Hunt et al. 2018 western disturbance composites). Our station network's own normal
+#     pressure range is ~992-1025 hPa (33 hPa span) — a genuine regional event should be a small fraction of that, not larger than the whole range.
 #     -0.3% to -0.8% of ~1013 hPa ≈ -3 to -8 hPa, matching that real-world figure.
 DEFAULT_MAGNITUDE_RANGES = {
     "REGIONAL_HEAT_EVENT": (0.15, 0.30),
@@ -61,7 +56,7 @@ def inject_regional_event(df, feature, anomaly_type, n_events, used_rows, event_
             station_mask = (df["station_name"] == station) & (df["date_of_record"].isin(date_window))
             idxs = df[station_mask].index
             if any(i in used_rows for i in idxs):
-                continue  # skip just this station, keep going for the rest of the cluster
+                continue                             # skip just this station, keep going for the rest of the cluster
 
             for idx in idxs:
                 original = df.at[idx, feature]
@@ -69,8 +64,7 @@ def inject_regional_event(df, feature, anomaly_type, n_events, used_rows, event_
                     continue
                 modified = original * (1 + magnitude)  # same direction/magnitude across the cluster
 
-                # Applying the same positive scale factor to min/max keeps min<=avg<=max
-                # intact — without this, a heat event pushes avg_temp above max_temp and
+                # Applying the same positive scale factor to min/max keeps min<=avg<=max intact — without this, a heat event pushes avg_temp above max_temp and
                 # the physics rule engine wrongly flags a genuine event as a sensor fault.
                 if companion_features:
                     for cf in companion_features:

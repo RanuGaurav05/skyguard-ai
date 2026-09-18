@@ -94,7 +94,7 @@ function Sidebar({ isOpen, onClose }) {
           <HeartPulse size={18} />
           <span>Sensor Health</span>
         </NavLink>
-
+        {/* 
         <NavLink
           to="/analytics"
           onClick={onClose}
@@ -102,7 +102,7 @@ function Sidebar({ isOpen, onClose }) {
         >
           <BarChart3 size={18} />
           <span>Analytics</span>
-        </NavLink>
+        </NavLink> */}
 
         {/* SYSTEM */}
         <div className="nav-section second">

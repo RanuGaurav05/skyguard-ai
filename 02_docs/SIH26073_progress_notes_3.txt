@@ -1,0 +1,55 @@
+Now Moving forward to LSTM Autoencoder.                                                                                             # 14/09/26
+
+
+# why not choosing to train model in the .ipynb notebook.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. .ipynb vs .py Ka Division
+
+# 02_notebooks/ (.ipynb Files) — Exploration & Visualization:
+- Kyun use karte hain: Model training ki loss curves dekhne ke liye, confusion matrix plot karne ke liye,
+  model.summary() live print dekhne ke liye aur fast prototyping ke liye.
+
+- Kahan kaam aata hai: Jab tak hum experiment kar rahe hain ki konse features ache hain ya kaunsi LSTM layer sahi kaam kar rahi hai.
+
+# 03_src/ (.py Files) — Production & Automation:
+- Kyun use karte hain: Reusable modular code ke liye. Fast API backend (08_api/) direct .ipynb ko run nahi kar sakta, use .py files se functions import karne padte hain.
+
+- Kahan kaam aata hai: GitHub par push karne, web dev teammates ke API se connect karne aur automated pipelines ke liye.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Hamare pass 2 options the:
+- Option 1: notebook mein separate code karna and phir un same files ko .py file mein banana. This would just fill up and create code redundancy.
+- Option 2: Hum same python reusable modular files mein plotting/ graph functions ko import kare and plots ko output file mein save kare.
+
+- So we are moving to option 2.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Initially I was given with model .h5 but I preferred to use .keras file. 
+
+.h5 (HDF5 - Legacy Format):
+- Purana binary format hai jo external HDF5 C-libraries par depend karta hai.
+- Custom loss functions, scalers ya custom layers load karte waqt deserialization errors aane ke chances hote hain.
+- Opaque file hoti hai, iske andar kya store hua hai wo direct open karke check nahi kar sakte.
+
+.keras (Native Keras Format - Modern Standard):
+- Keras ka official, lightweight, aur secure format hai.
+- Under the hood, ye ek ZIP archive hota hai jiske andar JSON format mein architecture, aur structured arrays mein weights bilkul safe store hote hain.
+- Load hone mein faster hai aur version conflicts kam deta hai.
+- Multi-backend support (TensorFlow, PyTorch, JAX) mein bina problem ke chalta hai.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2. Autoencoder Ko "Unsupervised / Self-Supervised" Kyun Kehte Hain?
+
+Humare code ki training line par dhyan dein to : Python # Pass clean weather sequences as both input and target output (X -> X)
+# history = model.fit(X_clean, X_clean, epochs=30, batch_size=64)
+
+- Koi Labels (Y) Nahi Hain: Hum Model ko ye nahi bata rahe ki "bhai ye anomaly hai, isse yaad kar lo."
+- Hum usse sirf normal weather features (X) de rahe hain. Input hi Target hai (X ---> X): Model input data ko squeeze karta hai (Encoder) aur wapas reconstruct karta hai (Decoder).
+- Self-Learned Rules: Model bina kisi explicit human label ke Normal Weather Pattern seekh leta hai.
+
+Jab testing par koi ajeeb weather event aata hai, toh model use reconstruct nahi kar pata aur Error Spikes aa jate hain.
+Chunki model ne bina labels ke anomaly pakdna seekha, isliye is technique ko Unsupervised (ya Self-Supervised) Anomaly Detection bola jata hai.

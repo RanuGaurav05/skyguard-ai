@@ -39,7 +39,7 @@ const HeroSection = () => {
               {/* Primary CTA */}
               <button
                 onClick={() => navigate("/dashboard")}
-                className="group relative w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 shadow-[0_0_22px_rgba(0,168,255,0.45)] hover:shadow-[0_0_30px_rgba(0,240,255,0.75)] border border-blue-400/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0"
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 shadow-[0_0_22px_rgba(0,168,255,0.45)] hover:shadow-[0_0_30px_rgba(0,240,255,0.50)] border border-blue-400/40 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0"
               >
                 <span>Explore Dashboard</span>
 

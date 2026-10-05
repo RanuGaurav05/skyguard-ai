@@ -1,6 +1,9 @@
-import { Search, Bell, Menu } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Bell, Menu } from "lucide-react";
 
 function Topbar({ onMenuClick }) {
+  const navigate = useNavigate();
+
   return (
     <header className="topbar">
       {/* MOBILE HAMBURGER */}
@@ -14,34 +17,30 @@ function Topbar({ onMenuClick }) {
       </button>
 
       <div className="topbar-left">
-        <div className="breadcrumb">
-          SKYGUARD AI
-          <span>/</span>
-          Dashboard
-        </div>
+        {/* HOME */}
+        <button
+          type="button"
+          className="breadcrumb home-button"
+          onClick={() => navigate("/")}
+          aria-label="Go to Home"
+        >
+          Go Home
+        </button>
       </div>
 
       <div className="topbar-right">
-        <div className="live-indicator">
-          <span className="status-dot"></span>
-          LIVE
-        </div>
-
-        <div className="topbar-time">11:05:32 IST</div>
-
-        <button type="button" className="icon-button" aria-label="Search">
-          <Search size={18} />
-        </button>
-
+        {/* NOTIFICATION */}
         <button
           type="button"
           className="icon-button notification-button"
           aria-label="Notifications"
+          onClick={() => navigate("/alerts")}
         >
           <Bell size={18} />
           <span></span>
         </button>
 
+        {/* OPERATOR */}
         <div className="operator">
           <div className="operator-avatar">SG</div>
 

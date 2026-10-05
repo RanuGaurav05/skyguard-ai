@@ -41,21 +41,7 @@ function SensorCard({ title, value, unit, change, status, icon }) {
         <span>{unit}</span>
       </div>
 
-      <div className="sensor-footer">
-        <div className={`sensor-change ${isDown ? "down" : ""}`}>
-          {isNeutral ? (
-            <Minus size={13} />
-          ) : isDown ? (
-            <ArrowDownRight size={13} />
-          ) : (
-            <ArrowUpRight size={13} />
-          )}
-
-          {change}
-        </div>
-
-        <span className="updated-text">Updated 2 sec ago</span>
-      </div>
+     
 
       <div className="sensor-line"></div>
     </div>

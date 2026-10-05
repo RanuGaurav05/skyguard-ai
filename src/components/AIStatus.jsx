@@ -38,7 +38,7 @@ function AIStatus() {
 
         <div className="ai-metric">
           <span>MODEL</span>
-          <strong>SG-AE v1.0</strong>
+          <strong>AWS MD v 3.3</strong>
         </div>
       </div>
 

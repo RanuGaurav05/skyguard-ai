@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
 import {
   MapContainer,
   TileLayer,
@@ -6,69 +7,32 @@ import {
   Popup,
   useMap,
 } from "react-leaflet";
+
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// =========================================================
-// STATION COORDINATES
-// Demo coordinates around Bhopal.
-// Replace these with actual AWS coordinates later.
-// =========================================================
+/* =========================================================
+   MARKER ICON
+========================================================= */
 
-const stationLocations = {
-  "AWS-042": {
-    lat: 23.2599,
-    lng: 77.4126,
-  },
-
-  "AWS-018": {
-    lat: 23.2850,
-    lng: 77.3950,
-  },
-
-  "AWS-011": {
-    lat: 23.2450,
-    lng: 77.4450,
-  },
-
-  "AWS-027": {
-    lat: 23.2250,
-    lng: 77.4150,
-  },
-
-  "AWS-033": {
-    lat: 23.2650,
-    lng: 77.3650,
-  },
-
-  "AWS-006": {
-    lat: 23.2870,
-    lng: 77.4700,
-  },
-};
-
-
-// =========================================================
-// CUSTOM LEAFLET MARKER
-// =========================================================
-
-const createMarkerIcon = (status, selected) => {
-  let color = "#20c8ed";
-
-  if (status === "WARNING") {
-    color = "#f5b942";
-  }
-
-  if (status === "OFFLINE") {
-    color = "#718096";
-  }
+const createMarkerIcon = (
+  status,
+  selected,
+  stationName
+) => {
+  const color =
+    status === "ANOMALOUS"
+      ? "#f5b942"
+      : "#20c8ed";
 
   return L.divIcon({
     className: "skyguard-marker-wrapper",
 
     html: `
       <div
-        class="skyguard-marker ${selected ? "selected" : ""}"
+        class="skyguard-marker ${
+          selected ? "selected" : ""
+        }"
         style="--marker-color: ${color};"
       >
         <span class="marker-pulse"></span>
@@ -76,7 +40,7 @@ const createMarkerIcon = (status, selected) => {
 
         ${
           selected
-            ? `<div class="marker-label">${status}</div>`
+            ? `<div class="marker-label">${stationName}</div>`
             : ""
         }
       </div>
@@ -89,65 +53,146 @@ const createMarkerIcon = (status, selected) => {
 };
 
 
-// =========================================================
-// MAP CONTROLLER
-// Automatically moves map to selected station
-// =========================================================
+/* =========================================================
+   MAP CONTROLLER
+========================================================= */
 
-function MapController({ selectedStation }) {
+function MapController({
+  stations,
+  selectedStationName,
+}) {
   const map = useMap();
 
+  const initialFitDone = useRef(false);
+
+  const previousSelectedStation =
+    useRef(selectedStationName);
+
+
+  /* =======================================================
+     INITIAL MAP FIT
+     
+     Runs ONLY once when station data becomes available.
+     It will NOT run again during live 2-sec updates.
+  ======================================================= */
+
   useEffect(() => {
+    if (initialFitDone.current) return;
+
+    const validStations = stations.filter(
+      (station) =>
+        station.latitude !== null &&
+        station.longitude !== null
+    );
+
+    if (!validStations.length) return;
+
+    const bounds = L.latLngBounds(
+      validStations.map((station) => [
+        Number(station.latitude),
+        Number(station.longitude),
+      ])
+    );
+
+    map.fitBounds(bounds, {
+      padding: [35, 35],
+      maxZoom: 6,
+      animate: false,
+    });
+
+    initialFitDone.current = true;
+  }, [stations, map]);
+
+
+  /* =======================================================
+     MOVE MAP ONLY WHEN USER CHANGES STATION
+     
+     Live data updates will NOT trigger this.
+  ======================================================= */
+
+  useEffect(() => {
+    if (
+      previousSelectedStation.current ===
+      selectedStationName
+    ) {
+      return;
+    }
+
+    previousSelectedStation.current =
+      selectedStationName;
+
+    const selectedStation =
+      stations.find(
+        (station) =>
+          station.name === selectedStationName
+      );
+
     if (!selectedStation) return;
 
-    const location =
-      stationLocations[selectedStation.id];
-
-    if (!location) return;
+    if (
+      selectedStation.latitude === null ||
+      selectedStation.longitude === null
+    ) {
+      return;
+    }
 
     map.flyTo(
-      [location.lat, location.lng],
-      11,
+      [
+        Number(selectedStation.latitude),
+        Number(selectedStation.longitude),
+      ],
+      10,
       {
         duration: 0.8,
       }
     );
-  }, [selectedStation, map]);
+
+  }, [
+    selectedStationName,
+    stations,
+    map,
+  ]);
+
 
   return null;
 }
 
 
-// =========================================================
-// STATION MAP
-// =========================================================
+/* =========================================================
+   STATION MAP
+========================================================= */
 
 function StationMap({
   stations,
-  selectedStationId,
-  setSelectedStationId,
+  selectedStationName,
+  setSelectedStationName,
 }) {
-  const selectedStation =
-    stations.find(
-      (station) =>
-        station.id === selectedStationId
-    ) || stations[0];
+
+  /* =======================================================
+     MARKER REFERENCES
+
+     Used to programmatically open the newly selected
+     station popup.
+  ======================================================= */
+
+  const markerRefs = useRef({});
+
 
   return (
     <div className="leaflet-map-wrapper">
 
       <MapContainer
-        center={[23.2599, 77.4126]}
-        zoom={10}
-        minZoom={5}
+        center={[22.5, 78.5]}
+        zoom={5}
+        minZoom={4}
         maxZoom={16}
         scrollWheelZoom={true}
         className="leaflet-map"
       >
 
-        {/* =================================================
+        {/* ===================================================
             OPEN STREET MAP
-        ================================================= */}
+        =================================================== */}
 
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
@@ -155,165 +200,281 @@ function StationMap({
         />
 
 
-        {/* =================================================
-            SELECTED STATION CONTROLLER
-        ================================================= */}
+        {/* ===================================================
+            MAP CONTROLLER
+        =================================================== */}
 
         <MapController
-          selectedStation={selectedStation}
+          stations={stations}
+          selectedStationName={
+            selectedStationName
+          }
         />
 
 
-        {/* =================================================
-            STATION MARKERS
-        ================================================= */}
+        {/* ===================================================
+            ALL 14 STATIONS
+        =================================================== */}
 
         {stations.map((station) => {
-          const location =
-            stationLocations[station.id];
 
-          if (!location) return null;
+          if (
+            station.latitude === null ||
+            station.longitude === null
+          ) {
+            return null;
+          }
 
           const isSelected =
-            station.id === selectedStationId;
+            station.name ===
+            selectedStationName;
+
 
           return (
             <Marker
-              key={station.id}
+              key={station.name}
+
+              ref={(marker) => {
+                if (marker) {
+                  markerRefs.current[
+                    station.name
+                  ] = marker;
+                }
+              }}
+
               position={[
-                location.lat,
-                location.lng,
+                Number(station.latitude),
+                Number(station.longitude),
               ]}
+
               icon={createMarkerIcon(
                 station.status,
-                isSelected
+                isSelected,
+                station.name
               )}
+
               eventHandlers={{
-                click: () => {
-                  setSelectedStationId(
-                    station.id
+                click: (event) => {
+
+                  /* =========================================
+                     CLOSE PREVIOUS POPUP IMMEDIATELY
+                  ========================================= */
+
+                  const map =
+                    event.target._map;
+
+                  if (map) {
+                    map.closePopup();
+                  }
+
+
+                  /* =========================================
+                     CHANGE SELECTED STATION
+                  ========================================= */
+
+                  setSelectedStationName(
+                    station.name
                   );
+
+
+                  /* =========================================
+                     OPEN THIS STATION'S POPUP
+                     
+                     Small delay allows React to update
+                     the selected marker first.
+                  ========================================= */
+
+                  setTimeout(() => {
+
+                    const selectedMarker =
+                      markerRefs.current[
+                        station.name
+                      ];
+
+                    if (
+                      selectedMarker
+                    ) {
+                      selectedMarker.openPopup();
+                    }
+
+                  }, 50);
                 },
               }}
             >
 
               {/* =================================================
-                  STATION POPUP
+                  POPUP
+                  
+                  IMPORTANT:
+                  Only selected station gets a popup.
+                  This prevents previous station popup
+                  from remaining visible.
               ================================================= */}
 
-              <Popup>
+              {isSelected && (
 
-                <div className="station-popup">
+                <Popup
+                  closeButton={true}
+                  autoClose={true}
+                  closeOnClick={false}
+                >
 
-                  {/* HEADER */}
+                  <div className="station-popup">
 
-                  <div className="popup-header">
+                    {/* =================================================
+                        HEADER
+                    ================================================= */}
 
-                    <div>
-                      <span className="popup-eyebrow">
-                        AWS STATION
+                    <div className="popup-header">
+
+                      <div>
+
+                        <span className="popup-eyebrow">
+                          AWS STATION
+                        </span>
+
+                        <strong>
+                          {station.name}
+                        </strong>
+
+                      </div>
+
+                      <span
+                        className={`popup-status ${
+                          station.status.toLowerCase()
+                        }`}
+                      >
+                        {station.status}
                       </span>
 
-                      <strong>
-                        {station.id}
-                      </strong>
                     </div>
 
-                    <span
-                      className={`popup-status ${station.status.toLowerCase()}`}
-                    >
-                      {station.status}
-                    </span>
 
-                  </div>
+                    {/* =================================================
+                        LOCATION
+                    ================================================= */}
 
+                    <div className="popup-location">
 
-                  {/* LOCATION */}
+                      {station.state}
+                      {" · "}
+                      {station.district}
 
-                  <div className="popup-location">
+                      <br />
 
-                    {station.name}
-
-                    <br />
-
-                    <span>
-                      {station.location}
-                    </span>
-
-                  </div>
-
-
-                  {/* HEALTH */}
-
-                  <div className="popup-health">
-
-                    <span>
-                      SENSOR HEALTH
-                    </span>
-
-                    <strong>
-                      {station.health}%
-                    </strong>
-
-                  </div>
-
-
-                  {/* SENSOR READINGS */}
-
-                  <div className="popup-readings">
-
-                    <div>
                       <span>
-                        Temperature
+                        {station.date_of_record}
                       </span>
 
-                      <strong>
-                        {station.temperature === "--"
-                          ? "--"
-                          : `${station.temperature}°C`}
-                      </strong>
                     </div>
 
 
-                    <div>
-                      <span>
-                        Pressure
-                      </span>
+                    {/* =================================================
+                        SENSOR READINGS
+                    ================================================= */}
 
-                      <strong>
-                        {station.pressure === "--"
-                          ? "--"
-                          : `${station.pressure} hPa`}
-                      </strong>
+                    <div className="popup-readings">
+
+                      {/* TEMPERATURE */}
+
+                      <div>
+
+                        <span>
+                          Temperature
+                        </span>
+
+                        <strong>
+                          {station.avg_temp ===
+                          null
+                            ? "--"
+                            : `${Number(
+                                station.avg_temp
+                              ).toFixed(1)}°C`}
+                        </strong>
+
+                      </div>
+
+
+                      {/* PRESSURE */}
+
+                      <div>
+
+                        <span>
+                          Pressure
+                        </span>
+
+                        <strong>
+                          {station.air_pressure ===
+                          null
+                            ? "--"
+                            : `${Number(
+                                station.air_pressure
+                              ).toFixed(1)} hPa`}
+                        </strong>
+
+                      </div>
+
+
+                      {/* HUMIDITY */}
+
+                      <div>
+
+                        <span>
+                          Humidity
+                        </span>
+
+                        <strong>
+                          {station.relative_humidity ===
+                          null
+                            ? "--"
+                            : `${Number(
+                                station.relative_humidity
+                              ).toFixed(4)}%`}
+                        </strong>
+
+                      </div>
+
                     </div>
 
 
-                    <div>
+                    {/* =================================================
+                        COORDINATES
+                    ================================================= */}
+
+                    <div className="popup-location">
+
                       <span>
-                        Humidity
+                        LAT:{" "}
+                        {Number(
+                          station.latitude
+                        ).toFixed(4)}
                       </span>
 
-                      <strong>
-                        {station.humidity === "--"
-                          ? "--"
-                          : `${station.humidity}%`}
-                      </strong>
+                      <br />
+
+                      <span>
+                        LNG:{" "}
+                        {Number(
+                          station.longitude
+                        ).toFixed(4)}
+                      </span>
+
                     </div>
 
                   </div>
 
-                </div>
+                </Popup>
 
-              </Popup>
+              )}
 
             </Marker>
           );
         })}
 
 
-        {/* =================================================
-            MAP LEGEND
-        ================================================= */}
+        {/* ===================================================
+            LEGEND
+        =================================================== */}
 
         <div className="leaflet-legend">
 
@@ -327,13 +488,8 @@ function StationMap({
           </div>
 
           <div>
-            <span className="legend-dot warning"></span>
-            Warning
-          </div>
-
-          <div>
-            <span className="legend-dot offline"></span>
-            Offline
+            <span className="legend-dot anomalous"></span>
+            Anomalous
           </div>
 
         </div>

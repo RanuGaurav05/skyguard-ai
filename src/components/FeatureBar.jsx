@@ -54,11 +54,11 @@ const FeatureBar = () => {
               </div>
               <div className="flex flex-col min-w-0">
                 <h3 className="text-xs font-bold text-white tracking-wide truncate group-hover:text-[#00f0ff] transition-colors">
-                  {feature.title}
+               
                 </h3>
                 <p className="text-[11px] text-blue-200/70 font-medium leading-tight mt-0.5 truncate">
                   {feature.description}
-                </p>
+                </p>   {feature.title}
               </div>
             </div>
           ))}

@@ -45,27 +45,37 @@ function Sidebar({ isOpen, onClose }) {
           <span>MONITORING</span>
         </div>
 
+        {/* DASHBOARD */}
         <NavLink
           to="/dashboard"
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          onClick={onClose}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <LayoutDashboard size={18} />
           <span>Dashboard</span>
         </NavLink>
 
+        {/* LIVE MONITORING */}
         <NavLink
-          to="/live"
+          to="/live-monitoring"
           onClick={onClose}
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <Activity size={18} />
           <span>Live Monitoring</span>
         </NavLink>
 
+        {/* AWS STATIONS */}
         <NavLink
           to="/stations"
           onClick={onClose}
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <Map size={18} />
           <span>AWS Stations</span>
@@ -76,57 +86,74 @@ function Sidebar({ isOpen, onClose }) {
           <span>INTELLIGENCE</span>
         </div>
 
+        {/* ANOMALIES */}
         <NavLink
           to="/anomalies"
           onClick={onClose}
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <AlertTriangle size={18} />
           <span>Anomalies</span>
           <span className="nav-badge">02</span>
         </NavLink>
 
+        {/* SENSOR HEALTH */}
         <NavLink
           to="/health"
           onClick={onClose}
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <HeartPulse size={18} />
           <span>Sensor Health</span>
         </NavLink>
+
         {/* 
         <NavLink
           to="/analytics"
           onClick={onClose}
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <BarChart3 size={18} />
           <span>Analytics</span>
-        </NavLink> */}
+        </NavLink>
+        */}
 
         {/* SYSTEM */}
         <div className="nav-section second">
           <span>SYSTEM</span>
         </div>
 
+        {/* ALERTS */}
         <NavLink
           to="/alerts"
           onClick={onClose}
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <Bell size={18} />
           <span>Alerts</span>
           <span className="nav-badge">03</span>
         </NavLink>
 
+        {/* 
         <NavLink
           to="/settings"
           onClick={onClose}
-          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""}`
+          }
         >
           <Settings size={18} />
           <span>Settings</span>
         </NavLink>
+        */}
       </nav>
 
       {/* SYSTEM STATUS */}
@@ -136,14 +163,16 @@ function Sidebar({ isOpen, onClose }) {
           SYSTEM ONLINE
         </div>
 
+        {/* 
         <div className="system-status-line">
           <span>Network</span>
           <strong>98.7%</strong>
         </div>
+        */}
 
         <div className="system-status-line">
           <span>Stations</span>
-          <strong>24 / 24</strong>
+          <strong>14 / 14</strong>
         </div>
       </div>
     </aside>

@@ -1,47 +1,71 @@
 import {
   Thermometer,
-  Droplets,
   Wind,
-  Gauge,
   CloudRain,
   Mountain,
   MapPin,
 } from "lucide-react";
 
-import weatherData from "../data/weatherData";
+import { useLiveMonitoring } from "./LiveMonitoringContext";
 
 function WeatherDataGrid() {
+  const {
+    selectedStation,
+    currentRecord,
+    isLive,
+  } = useLiveMonitoring();
+
+  const formatValue = (value, digits = 1) => {
+    if (
+      value === null ||
+      value === undefined ||
+      value === "" ||
+      Number.isNaN(Number(value))
+    ) {
+      return "—";
+    }
+
+    return Number(value).toFixed(digits);
+  };
+
   return (
     <div className="weather-data-card">
-      {/* HEADER */}
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
       <div className="weather-data-header">
         <div>
-          <span className="card-eyebrow">AWS SENSOR DATA</span>
+          <span className="card-eyebrow">
+            AWS SENSOR DATA
+          </span>
 
-          <h2>Weather Observation Data</h2>
+          <h2>
+            Weather Observation Data
+          </h2>
 
-          <p>Current atmospheric parameters from {weatherData.station_id}</p>
+          <p>
+            Current atmospheric parameters from{" "}
+            <strong>{selectedStation}</strong>
+          </p>
         </div>
 
         <div className="weather-data-live">
-          <span className="status-dot"></span>
-          LIVE
+          <span
+            className={`status-dot ${
+              isLive ? "" : "offline"
+            }`}
+          ></span>
+
+          {isLive ? "LIVE" : "OFFLINE"}
         </div>
       </div>
 
-      {/* DATA GRID */}
-      <div className="weather-data-grid">
-        {/* AVG TEMPERATURE */}
-        <div className="weather-data-item">
-          <div className="weather-data-icon">
-            <Thermometer size={17} />
-          </div>
+      {/* =====================================================
+          DATA GRID
+      ===================================================== */}
 
-          <div>
-            <span>AVG TEMPERATURE</span>
-            <strong>{weatherData.avg_temp} °C</strong>
-          </div>
-        </div>
+      <div className="weather-data-grid">
 
         {/* MIN TEMPERATURE */}
         <div className="weather-data-item">
@@ -51,9 +75,16 @@ function WeatherDataGrid() {
 
           <div>
             <span>MIN TEMPERATURE</span>
-            <strong>{weatherData.min_temp} °C</strong>
+
+            <strong>
+              {formatValue(
+                currentRecord?.min_temp
+              )}{" "}
+              °C
+            </strong>
           </div>
         </div>
+
 
         {/* MAX TEMPERATURE */}
         <div className="weather-data-item">
@@ -63,23 +94,16 @@ function WeatherDataGrid() {
 
           <div>
             <span>MAX TEMPERATURE</span>
-            <strong>{weatherData.max_temp} °C</strong>
+
+            <strong>
+              {formatValue(
+                currentRecord?.max_temp
+              )}{" "}
+              °C
+            </strong>
           </div>
         </div>
 
-        {/* HUMIDITY */}
-        {/* <div className="weather-data-item">
-          <div className="weather-data-icon">
-            <Droplets size={17} />
-          </div>
-
-          <div>
-            <span>RELATIVE HUMIDITY</span>
-            <strong>
-              {weatherData.relative_humidity} %
-            </strong>
-          </div>
-        </div> */}
 
         {/* WIND SPEED */}
         <div className="weather-data-item">
@@ -89,23 +113,16 @@ function WeatherDataGrid() {
 
           <div>
             <span>WIND SPEED</span>
-            <strong>{weatherData.wind_speed} m/s</strong>
+
+            <strong>
+              {formatValue(
+                currentRecord?.wind_speed
+              )}{" "}
+              m/s
+            </strong>
           </div>
         </div>
 
-        {/* PRESSURE */}
-        {/* <div className="weather-data-item">
-          <div className="weather-data-icon">
-            <Gauge size={17} />
-          </div>
-
-          <div>
-            <span>AIR PRESSURE</span>
-            <strong>
-              {weatherData.air_pressure} hPa
-            </strong>
-          </div>
-        </div> */}
 
         {/* RAINFALL */}
         <div className="weather-data-item">
@@ -115,9 +132,16 @@ function WeatherDataGrid() {
 
           <div>
             <span>RAINFALL</span>
-            <strong>{weatherData.rainfall} mm</strong>
+
+            <strong>
+              {formatValue(
+                currentRecord?.rainfall
+              )}{" "}
+              mm
+            </strong>
           </div>
         </div>
+
 
         {/* ELEVATION */}
         <div className="weather-data-item">
@@ -127,9 +151,16 @@ function WeatherDataGrid() {
 
           <div>
             <span>ELEVATION</span>
-            <strong>{weatherData.elevation} m</strong>
+
+            <strong>
+              {formatValue(
+                currentRecord?.elevation
+              )}{" "}
+              m
+            </strong>
           </div>
         </div>
+
 
         {/* LATITUDE */}
         <div className="weather-data-item">
@@ -139,9 +170,16 @@ function WeatherDataGrid() {
 
           <div>
             <span>LATITUDE</span>
-            <strong>{weatherData.latitude}</strong>
+
+            <strong>
+              {formatValue(
+                currentRecord?.latitude,
+                4
+              )}
+            </strong>
           </div>
         </div>
+
 
         {/* LONGITUDE */}
         <div className="weather-data-item">
@@ -151,9 +189,16 @@ function WeatherDataGrid() {
 
           <div>
             <span>LONGITUDE</span>
-            <strong>{weatherData.longitude}</strong>
+
+            <strong>
+              {formatValue(
+                currentRecord?.longitude,
+                4
+              )}
+            </strong>
           </div>
         </div>
+
       </div>
     </div>
   );

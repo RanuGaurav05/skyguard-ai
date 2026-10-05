@@ -1,4 +1,9 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
@@ -7,92 +12,121 @@ import Anomalies from "./pages/Anomalies";
 import SensorHealth from "./components/SensorHealth";
 import Analytics from "./pages/Analytics";
 import Alerts from "./pages/Alerts";
-import Settings from "./pages/Settings";
+import LiveMonitoring from "./pages/LiveMonitoring";
 
 import Layout from "./components/Layout";
+import { LiveMonitoringProvider } from "./components/LiveMonitoringContext";
 
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* LANDING PAGE */}
-        <Route path="/" element={<LandingPage />} />
+      {/* GLOBAL LIVE MONITORING PROVIDER */}
+      <LiveMonitoringProvider>
+        <Routes>
 
-        {/* DASHBOARD APP */}
-        <Route
-          path="/dashboard"
-          element={
-            <Layout>
-              <Dashboard />
-            </Layout>
-          }
-        />
+          {/* LANDING PAGE */}
+          <Route
+            path="/"
+            element={<LandingPage />}
+          />
 
-        {/* AWS STATIONS */}
-        <Route
-          path="/stations"
-          element={
-            <Layout>
-              <Stations />
-            </Layout>
-          }
-        />
+          {/* DASHBOARD APP */}
+          <Route
+            path="/dashboard"
+            element={
+              <Layout>
+                <Dashboard />
+              </Layout>
+            }
+          />
 
-        {/* ANOMALIES */}
-        <Route
-          path="/anomalies"
-          element={
-            <Layout>
-              <Anomalies />
-            </Layout>
-          }
-        />
+          {/* LIVE MONITORING */}
+          <Route
+            path="/live-monitoring"
+            element={
+              <Layout>
+                <LiveMonitoring />
+              </Layout>
+            }
+          />
 
-        {/* SENSOR HEALTH */}
-        <Route
-          path="/health"
-          element={
-            <Layout>
-              <SensorHealth />
-            </Layout>
-          }
-        />
+          {/* AWS STATIONS */}
+          <Route
+            path="/stations"
+            element={
+              <Layout>
+                <Stations />
+              </Layout>
+            }
+          />
 
-        {/* ANALYTICS */}
-        <Route
-          path="/analytics"
-          element={
-            <Layout>
-              <Analytics />
-            </Layout>
-          }
-        />
+          {/* ANOMALIES */}
+          <Route
+            path="/anomalies"
+            element={
+              <Layout>
+                <Anomalies />
+              </Layout>
+            }
+          />
 
-        {/* ALERTS */}
-        <Route
-          path="/alerts"
-          element={
-            <Layout>
-              <Alerts />
-            </Layout>
-          }
-        />
+          {/* SENSOR HEALTH */}
+          <Route
+            path="/health"
+            element={
+              <Layout>
+                <SensorHealth />
+              </Layout>
+            }
+          />
 
-        {/* SETTINGS */}
-        <Route
-          path="/settings"
-          element={
-            <Layout>
-              <Settings />
-            </Layout>
-          }
-        />
+          {/* ANALYTICS */}
+          <Route
+            path="/analytics"
+            element={
+              <Layout>
+                <Analytics />
+              </Layout>
+            }
+          />
 
-        {/* FALLBACK */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* ALERTS */}
+          <Route
+            path="/alerts"
+            element={
+              <Layout>
+                <Alerts />
+              </Layout>
+            }
+          />
+
+          {/* SETTINGS */}
+          {/*
+          <Route
+            path="/settings"
+            element={
+              <Layout>
+                <Settings />
+              </Layout>
+            }
+          />
+          */}
+
+          {/* FALLBACK */}
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to="/"
+                replace
+              />
+            }
+          />
+
+        </Routes>
+      </LiveMonitoringProvider>
     </BrowserRouter>
   );
 }
